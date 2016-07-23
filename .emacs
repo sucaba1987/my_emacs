@@ -1,8 +1,14 @@
-
-; add MELPA to repository list
+; add MELPA to repositor(require 'package)
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(package-initialize)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize) ;; You might already have this liney list
+
+; set font size
+;(set-face-attribute 'default (selected-frame) :height 10)
+;(set-face-attribute 'default nil :height 100)
 
 ; tabbar mode
 (require 'tabbar)
@@ -63,8 +69,9 @@
 (defun my:ac-c-header-init ()
   (require 'auto-complete-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-headers)
-  (add-to-list 'achead:include-directories '"/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed")
-)
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/5.4.0/include-fixed")
+  )
+
 (add-hook 'c++-mode-hook 'my:ac-c-header-init)
 (add-hook 'c-mode-hook 'my:ac-c-header-init)
 
@@ -78,11 +85,6 @@
 )
 (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
 
-
-; turn on ede mode
-(global-ede-mode 1)
-(ede-cpp-root-project "my project" :file "~/work/src/main.cpp"
-		      :include-path '("/../include"))
 (global-semantic-idle-scheduler-mode 1)
 
 ;; turn on font highlight
@@ -103,7 +105,7 @@
 (require 'linum)
 (global-linum-mode t)
 ;; 高亮当前行
-(global-hl-line-mode 1)
+;;(global-hl-line-mode 1)
 
 ;; do not generate backup file
 (setq make-backup-files nil)
@@ -159,23 +161,21 @@
 (setq default-directory "~/work/")
 
 ;;;; 添加Emacs搜索路径
-(add-to-list 'load-path "~/_emacs")
-(add-to-list 'load-path "~/_emacs/codepilot")
-(add-to-list 'load-path "~/_emacs/emacs-eclim")
-(add-to-list 'load-path "~/_emacs/icicles")
-(add-to-list 'load-path "~/_emacs/gnuserv")
-
+;;(add-to-list 'load-path "~/_emacs")
+;;(add-to-list 'load-path "~/_emacs/codepilot")
+;;(add-to-list 'load-path "~/_emacs/emacs-eclim")
+;;(add-to-list 'load-path "~/_emacs/icicles")
+;;(add-to-list 'load-path "~/_emacs/gnuserv")
 
 (setq gdb-many-windows t)
 ;;...
-(load-library "multi-gud.el")
-(load-library "multi-gdb-ui.el")
-
+;;(load-library "multi-gud.el")
+;;(load-library "multi-gdb-ui.el")
 
 ;;===========================================================
 ;;key bind
 ;;===========================================================
-(require 'redo)
+(require 'redo+)
 (global-set-key ( kbd "C-.") 'redo)
 (global-set-key [f1] 'manual-entry)
 (global-set-key [C-f1] 'info )
@@ -231,7 +231,7 @@
 ;;shift-f12跳回去
 
 ;;C-z 设置标记
-(global-set-key (kbd "C-z") 'set-mark-command)
+;;(global-set-key (kbd "C-z") 'set-mark-command)
 ;;关闭当前窗口,alt+4
 (global-set-key (kbd "M-4") 'delete-window)
 ;;(global-set-key (kbd "M-4") 'kill-this-buffer)
@@ -244,18 +244,9 @@
 ;;切换到其他窗口，alt+0
 (global-set-key (kbd "M-0") 'other-window)
 ;;显示缓冲区完整名称
-(global-set-key (kbd "M-5") 'display-buffer-name)
+;;(global-set-key (kbd "M-5") 'display-buffer-name)
 
 
-
-;;; Tao's emacs setting
-;;; remap keys for terminal emacs
-;;(unless (eq window-system 'x)
-  ;;(setq delete-key-deletes-forward nil))
-
-
-;; enable visual feedback on selections
-;(setq transient-mark-mode t)
 
 ;; default to better frame titles
 (setq frame-title-format
@@ -267,7 +258,6 @@
 (global-font-lock-mode t)
 (column-number-mode t)
 (line-number-mode t)
-
 
 (defun my-c-mode-hook ()
   ; make the ENTER key indent next line properly
@@ -343,7 +333,7 @@
 
 (defun my-tex-mode-hook ()
   (auto-fill-mode t)
-  (set-fill-column 85)
+  (set-fill-column 90)
 )
 
 (add-hook 'c++-mode-hook 'my-c-mode-hook)
@@ -354,20 +344,11 @@
 (add-to-list 'auto-mode-alist '("\\make.+\\.rules" . makefile-mode))
 (add-to-list 'auto-mode-alist '("\\(M\\|m\\)akefile\\." . makefile-mode))
 
-(set-background-color "light yellow")
-
-(load "~/.emacs.d/my-loadpackages.el")
-
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")
-;     (unless window-system
-;       (set-face-background 'magit-item-highlight "black"))
-))
+;;(set-background-color "light yellow")
+(set-background-color "black")
 
 
-
+;; magit settings
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
